@@ -1,5 +1,4 @@
-# sn-smartwatch-clock
-
+# Sn SmartWatch (sn-smartwatch-clock)
 ![Widget Preview](assets/title.png)
 
 ServiceNow widget that simulates a smartwatch-style digital clock with a modern and responsive design.  
