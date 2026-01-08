@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<unload unload_date="2026-01-08 02:30:11">
+<sp_widget action="INSERT_OR_UPDATE">
+<category>custom</category>
+<client_script><![CDATA[function ($timeout) {
+	
+	var c = this;
+
+	//var z = c.options.zone || "America/Los_Angeles";
+  var z = c.data.userTZ || moment.tz.guess();
+	c.timezone = z;
+	// sys_id das imagens
+	var DAY_IMAGE   = 'bc961585831ef210daa0fecfeeaad397';
+	var NIGHT_IMAGE = '2f2795c5831ef210daa0fecfeeaad3f5';
+
+	function setBackground(type) {
+		var img = (type === "night") ? NIGHT_IMAGE : DAY_IMAGE;
+
+		c.bgImage =
+			"linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.85)), " +
+			"url(/sys_attachment.do?sys_id=" + img + ")";
+	}
+
+	function tick() {
+		var now = moment().tz(z);
+
+		// Hora e data
+		c.time = now.format("HH:mm");
+		c.dateText = now.format("ddd, DD MMM");
+
+		// Tema
+		var h = now.hours();
+		c.darkness = "";
+
+		if (h >= 6 && h < 18) {
+			c.darkness = "day";
+			setBackground("day");
+		} else {
+			c.darkness = "night";
+			setBackground("night");
+		}
+
+		$timeout(tick, 1000);
+	}
+
+	tick();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//If you need support, you can find me at: https://www.linkedin.com/in/carlospetrucio/]]></client_script>
+<controller_as>c</controller_as>
+<css>/* ===== CORPO DO APPLE WATCH (MOLDURA) ===== */
+.watch-case {
+  width: 260px;
+  height: 320px;
+  margin: auto;
+
+  border-radius: 52px;
+  background: linear-gradient(145deg, #2b2b2e, #0f0f10);
+
+  padding: 10px;
+
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.85),
+    inset 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+/* ===== TELA ===== */
+.digital-watch {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  border-radius: 44px;
+  overflow: hidden;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+               "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  box-shadow:
+    inset 0 0 35px rgba(0, 0, 0, 0.9);
+}
+
+/* ===== BORDA INTERNA DE VIDRO ===== */
+.digital-watch::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 44px;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.08),
+    inset 0 0 12px rgba(255,255,255,0.05);
+
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ===== REFLEXO DE VIDRO ===== */
+.digital-watch::after {
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0) 35%,
+    rgba(255,255,255,0.15) 48%,
+    rgba(255,255,255,0) 60%
+  );
+
+  animation: glassMove 10s linear infinite;
+  pointer-events: none;
+  z-index: 3;
+}
+
+@keyframes glassMove {
+  from {
+    transform: translateX(-30%);
+  }
+  to {
+    transform: translateX(30%);
+  }
+}
+
+/* ===== HORA ===== */
+.time {
+  font-size: 56px;
+  font-weight: 600;
+  letter-spacing: -2px;
+  color: #fff;
+  line-height: 1;
+  z-index: 4;
+}
+
+/* ===== DATA ===== */
+.date {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #d1d1d6;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  z-index: 4;
+}
+
+/* ===== TÍTULO ===== */
+.title {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #a1a1a6;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  z-index: 4;
+}
+
+/* ===== VARIAÇÕES DE LUZ ===== */
+.digital-watch.day {
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.75);
+}
+
+.digital-watch.night {
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 1);
+}
+</css>
+<data_table>sp_instance</data_table>
+<demo_data>{"options": 
+	{
+		"zone": "America/Los_Angeles",
+		"title": "San Diego, CA",
+		"c_color": "blue"
+	}
+}</demo_data>
+<description/>
+<docs display_value=""/>
+<field_list>title</field_list>
+<has_preview>true</has_preview>
+<id>sn-smartwatch-clock</id>
+<internal>false</internal>
+<link><![CDATA[function (scope, $element, attrs) {
+	var element = $element[0];
+	cacheElementSize(scope, element);
+	$(window).on('resize', onWindowResize);
+	// run after layout
+	setTimeout(onWindowResize, 5);
+	
+	function cacheElementSize(scope, element) {
+		var elem = scope.elem = {}
+		elem.w = element.offsetWidth;
+		elem.h = element.offsetHeight;
+		return elem;
+	}
+
+	function onWindowResize() {
+		var elem = scope.elem;
+		var isSizeChanged = elem.w != element.offsetWidth || elem.h != element.offsetHeight;
+		if (isSizeChanged) {
+			elem = cacheElementSize(scope, element);
+			// to stay square, the child width has to be
+			// min of height, width
+			var w = Math.min(elem.h, elem.w);
+			var clock = element.firstChild;
+			clock.style.width = w + "px";
+		}
+	}	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//If you need support, you can find me at: https://www.linkedin.com/in/carlospetrucio/]]></link>
+<name>Sn SmartWatch Clock</name>
+<option_schema>[{"name":"zone","default_value":"America/Los_Angeles","section":"Data","label":"TimeZone","type":"string"},{"name":"c_color","default_value":"red","section":"Presentation","label":"Second hand color","type":"string"},{"name":"day_image","section":"other","default_value":"bc961585831ef210daa0fecfeeaad397","label":"Day image","type":"string"},{"name":"night_image","section":"other","default_value":"2f2795c5831ef210daa0fecfeeaad3f5","label":"Night Image","type":"string"}]</option_schema>
+<public>true</public>
+<roles/>
+<script><![CDATA[(function () {
+	
+	data.userTZ = gs.getSession().getTimeZoneName();
+	
+})();]]></script>
+<servicenow>false</servicenow>
+<sys_class_name>sp_widget</sys_class_name>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2026-01-08 02:21:32</sys_created_on>
+<sys_id>7942247983927a10daa0fecfeeaad325</sys_id>
+<sys_mod_count>4</sys_mod_count>
+<sys_name>Sn SmartWatch Clock</sys_name>
+<sys_package display_value="Employee Center" source="sn_ex_sp">4249e63a28d54d61bb6fbf61fd86cccb</sys_package>
+<sys_policy/>
+<sys_scope display_value="Employee Center">4249e63a28d54d61bb6fbf61fd86cccb</sys_scope>
+<sys_update_name>sp_widget_7942247983927a10daa0fecfeeaad325</sys_update_name>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2026-01-08 02:29:45</sys_updated_on>
+<template><![CDATA[<div class="watch-case">
+  <div class="digital-watch {{c.darkness}}"
+       ng-style="{'background-image': c.bgImage}">
+		
+    <div class="time">{{c.time}}</div>
+    <div class="date">{{c.dateText}}</div>
+    <div class="title">{{::c.timezone}}</div>
+  </div>
+</div>
+]]></template>
+</sp_widget>
+</unload>
