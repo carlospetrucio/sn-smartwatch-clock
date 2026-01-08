@@ -85,7 +85,8 @@ This is the fastest way to install the widget.
 The widget automatically displays the time based on the **logged-in user’s timezone**, requiring no additional configuration.
 
 ---
-
+![Widget Preview](assets/portal_clock.png)
+---
 ## 👤 Author
 
 **Carlos Petrucio**
