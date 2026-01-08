@@ -1,0 +1,6 @@
+The file located in the /export folder contains the complete ServiceNow widget in XML format.
+
+This file should be imported into the ServiceNow table:
+sp_widget
+
+After importing, the widget can be freely modified and customized directly within the ServiceNow platform according to your needs.
