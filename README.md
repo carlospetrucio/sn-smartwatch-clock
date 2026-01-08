@@ -1,6 +1,6 @@
 # sn-smartwatch-clock
 
-![Widget Preview](https://via.placeholder.com/800x400?text=Smartwatch+Clock+Widget)
+![Widget Preview](assets/widget-preview.png)
 
 ServiceNow widget that simulates a smartwatch-style digital clock with a modern and responsive design.  
 It supports configurable background images for day and night modes, automatically uses the logged-in user’s timezone, and is compatible with **Service Portal** and **Employee Center**.
@@ -17,14 +17,17 @@ It supports configurable background images for day and night modes, automaticall
 ---
 
 ## 📁 Repository Structure
+```
 sn-smartwatch-clock-widget/
 ├── widget/
-│ ├── html.html
-│ ├── client_script.js
-│ ├── server_script.js
-│ └── style.css
+│   ├── HTML.html
+│   ├── Client Controller.js
+│   ├── Server Script.js
+│   ├── Link.js
+│   └── CSS.css
 └── export/
-└── sn-smartwatch-clock-widget.xml
+    └── sp_widget_7942247983927a10daa0fecfeeaad325.xml
+```
 
 
 ### `/widget` folder
